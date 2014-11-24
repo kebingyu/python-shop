@@ -1,17 +1,6 @@
 """
 implementation of 2D grid
 
-'1': wall cell
-'0': walkable cell
-'e': exit cell
-'m': mouse, the starting point
-'.': visited cell
-
-111111
-111001
-1000e1
-100m11
-111111
 """
 class Grid:
     def __init__(self, row, col):
@@ -34,13 +23,13 @@ class Grid:
     Check if the given position is valid
     """
     def isInGrid(self, curr):
-        return curr[0] >= 0 \
-                and curr[0] <= self.getHeight() - 1 \
-                and curr[1] >= 0 \
-                and curr[1] <= self.getWidth() - 1
+        return not (curr[0] < 0 \
+                or curr[0] > self.getHeight() \
+                or curr[1] < 0 \
+                or curr[1] > self.getWidth())
 
     """
-    Return the data of given position
+    Setter and Getter
     """
     def getData(self, curr):
         if self.isInGrid(curr):
@@ -63,29 +52,16 @@ class Grid:
     """
     Return neighbor cells in a list
     curr is a tuple of current position
-    Note: due to the grid set up, curr will never be at the edge of the grid
     """
     def getNeighbor(self, curr):
         neighbor = []
         if self.isInGrid(curr):
-            neighbor.append((curr[0] - 1, curr[1]))
-            neighbor.append((curr[0], curr[1] + 1))
-            neighbor.append((curr[0] + 1, curr[1]))
-            neighbor.append((curr[0], curr[1] - 1))
+            if self.isInGrid((curr[0] - 1, curr[1])):
+                neighbor.append((curr[0] - 1, curr[1]))
+            if self.isInGrid((curr[0], curr[1] + 1)):
+                neighbor.append((curr[0], curr[1] + 1))
+            if self.isInGrid((curr[0] + 1, curr[1])):
+                neighbor.append((curr[0] + 1, curr[1]))
+            if self.isInGrid((curr[0], curr[1] - 1)):
+                neighbor.append((curr[0], curr[1] - 1))
         return neighbor
-
-    """
-    Return unvisited neighbor cells in a list
-    Visited cell is replaced by '.'
-    """
-    def getUnvisitedNeighbor(self, curr):
-        neighbor = []
-        for _ in self.getNeighbor(curr):
-            data = self.getData(_)
-            if data != '.' and data != '1':
-                neighbor.append(_)
-        return neighbor
-
-    def markVisited(self, curr):
-        self.setData(curr, '.')
-

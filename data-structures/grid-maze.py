@@ -1,11 +1,53 @@
 """
 Exiting a 2D maze
+
+'1': wall cell
+'0': walkable cell
+'e': exit cell
+'m': mouse, the starting point
+'.': visited cell
+
+111111
+111001
+1000e1
+100m11
+111111
 """
+
 from grid import Grid
-from stack import Stack
+
+class MazeGrid(Grid):
+    """
+    Return neighbor cells in a list
+    curr is a tuple of current position
+    Note: due to the maze grid set up, curr will never be at the edge of the grid
+    """
+    def getNeighbor(self, curr):
+        neighbor = []
+        if self.isInGrid(curr):
+            neighbor.append((curr[0] - 1, curr[1]))
+            neighbor.append((curr[0], curr[1] + 1))
+            neighbor.append((curr[0] + 1, curr[1]))
+            neighbor.append((curr[0], curr[1] - 1))
+        return neighbor
+
+    """
+    Return unvisited neighbor cells in a list
+    Visited cell is replaced by '.'
+    """
+    def getUnvisitedNeighbor(self, curr):
+        neighbor = []
+        for _ in self.getNeighbor(curr):
+            data = self.getData(_)
+            if data != '.' and data != '1':
+                neighbor.append(_)
+        return neighbor
+
+    def markVisited(self, curr):
+        self.setData(curr, '.')
 
 def getGridOne():
-    board = Grid(5, 6)
+    board = MazeGrid(5, 6)
     board.addRow(0, '111111')
     board.addRow(1, '111001')
     board.addRow(2, '1000e1')
@@ -14,7 +56,7 @@ def getGridOne():
     return board
 
 def getGridTwo():
-    board = Grid(11, 11)
+    board = MazeGrid(11, 11)
     board.addRow(0, '11111111111')
     board.addRow(1, '10000010001')
     board.addRow(2, '10100010101')
@@ -29,10 +71,11 @@ def getGridTwo():
     return board
 
 # Initial grid
-#board = getGridOne()
-board = getGridTwo()
+board = getGridOne()
+#board = getGridTwo()
 print board
 
+from stack import Stack
 # Exit maze
 path = Stack() # save path for backtracking
 curr = (3, 3) # initial cell where the mouse is
