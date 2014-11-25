@@ -71,14 +71,15 @@ def getGridTwo():
     return board
 
 # Initial grid
-board = getGridOne()
-#board = getGridTwo()
+#board = getGridOne()
+#curr = (3, 3) # initial cell where the mouse is
+board = getGridTwo()
+curr = (8, 3) # initial cell where the mouse is
 print board
 
 from stack import Stack
 # Exit maze
 path = Stack() # save path for backtracking
-curr = (3, 3) # initial cell where the mouse is
 while board.getData(curr) != 'e':
     board.markVisited(curr)
 

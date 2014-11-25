@@ -2,7 +2,7 @@
 implementation of 2D grid
 
 """
-class Grid:
+class Grid(object):
     def __init__(self, row, col):
         self.board = [[] * col] * row 
         self.height = row
@@ -24,9 +24,9 @@ class Grid:
     """
     def isInGrid(self, curr):
         return not (curr[0] < 0 \
-                or curr[0] > self.getHeight() \
+                or curr[0] > self.getHeight() - 1 \
                 or curr[1] < 0 \
-                or curr[1] > self.getWidth())
+                or curr[1] > self.getWidth() - 1)
 
     """
     Setter and Getter
@@ -34,6 +34,8 @@ class Grid:
     def getData(self, curr):
         if self.isInGrid(curr):
             return self.board[curr[0]][curr[1]]
+        else:
+            return None
 
     def setData(self, curr, data):
         if self.isInGrid(curr):
