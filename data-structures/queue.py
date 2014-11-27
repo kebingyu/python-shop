@@ -12,7 +12,7 @@ class Queue:
         return len(self.queue) == 0
 
     def enqueue(self, data):
-        self.queue.insert(0, data)
+        self.queue.append(data)
 
     def dequeue(self):
         if not self.isEmpty():
