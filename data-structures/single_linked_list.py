@@ -86,6 +86,19 @@ class SLLList:
             ptr = ptr.next
         return False
 
+    def reverseList(self):
+        if self.head == None or self.head.next == None:
+            return self.head
+        curr = self.head
+        prev = None
+        while curr.next != None:
+            temp = curr.next
+            curr.next = prev
+            prev = curr
+            curr = temp
+        curr.next = prev
+        return curr
+
 """
 example 
 """
@@ -93,19 +106,7 @@ example
 list = SLLList()
 list.addToHead(1).addToTail(2).addToHead(3).addToHead(4).addToTail(5)
 print list
-list.deleteFromHead()
-print list
-list.deleteFromTail()
-print list
-list.addToHead(6).addToTail(6)
-print list
-list.deleteNode(11)
-print list
-list.deleteNode(6)
-print list
-list.deleteNode(1)
-print list
-list.deleteNode(2)
-print list
-list.deleteNode(3)
-print list
+node = list.reverseList()
+while node != None:
+    print node
+    node = node.next
